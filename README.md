@@ -6,7 +6,7 @@ During my research for local coding, I stumbled on this 4 tools. In this repo I 
 
 This repo is meant as a continuing project, so don't see it as non plus ultra for local coding... It's an entry point for software engineers, AI engineers and many more who are interested in having the power of your coding on local machines. 
 
-**Note:**
+**ℹ️ Note:** LM Studio Bionics will not be covered in detail for this introduction by now. I thought it was just worth mentioning it, as alternative to Hermes Agent.
 
 ## Starting Tools
 
@@ -20,5 +20,64 @@ This repo is meant as a continuing project, so don't see it as non plus ultra fo
 
 ## The Mental Model: Two Layers
 
+The general idea of this repo is a 2 layered structure, seperated in backend and agent layer, as described in the key points below:
+
 - **Backend layer** (the "brain"): Ollama and LM Studio load model weights and run inference.
 - **Agent layer** (the "hands"): Claude Code and Hermes Agent read your repo, write patches, run terminal commands, and orchestrate multi-step work. They need a backend to think with, whether that's a cloud API or  in our case, a local server.
+
+## General Setup
+### Setup Ollama
+### Setup LM Studio
+### Setup Claude Code (Locally)
+### Setup Hermes
+
+## Combinations
+
+You are free to combine the presented tools and much as you like, my intention is just to give a basic understanding of different setup possibilites and maybe give you some inspiration to explore on your own 😊!
+
+### Ollama + Claude Code
+### LM Studio + Claude Code
+### Ollama or LM Studio + Hermes Agent
+
+## Engine Setup in VS Code with agent registration
+
+## General Context Window Recommendations
+
+Local models default to small context windows, and agentic tools burn through them fast — a system prompt plus tool definitions alone can take up a meaningful chunk before any of your code enters the conversation.
+
+| Backend / Agent | Minimum context, per official docs |
+|---|---|
+| Ollama, for use with Claude Code | ≥ 32K tokens recommended |
+| LM Studio, for use with Claude Code | ≥ 25K tokens recommended, more for better results |
+| Hermes Agent, any backend | ≥ 64K tokens required, smaller models are rejected at startup |
+
+## Sources
+
+All information above is drawn from the official documentation of each publisher and some instrcution tutorials:
+
+**Ollama**
+[Anthropic API compatibility](https://docs.ollama.com/api/anthropic-compatibility)
+[Claude Code with Anthropic API compatibility](https://ollama.com/blog/claude)
+[Ollama v0.14.0 Release Notes](https://github.com/ollama/ollama/releases/tag/v0.14.0)
+[Hermes Agent integration](https://docs.ollama.com/integrations/hermes)
+
+**LM Studio**
+[Claude Code integration guide](https://lmstudio.ai/docs/integrations/claude-code)
+[Anthropic Compatibility Endpoints](https://lmstudio.ai/docs/developer/anthropic-compat)
+[Use your LM Studio Models in Claude Code](https://lmstudio.ai/blog/claudecode) 
+
+**Anthropic / Claude Code**
+[Claude Code model configuration](https://code.claude.com/docs/en/model-config.md)
+
+**Nous Research / Hermes Agent**
+[Hermes Agent Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart)
+[ACP Host Integration](https://hermes-agent.nousresearch.com/docs/user-guide/features/acp)
+[AI Providers Ollama / LM Studio setup](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/integrations/providers.md)
+
+**LM Studio Bionic**
+[Welcome to LM Studio Bionic](https://lmstudio.ai/docs/bionic)
+[Introducing LM Studio Bionic](https://lmstudio.ai/blog/introducing-lm-studio-bionic)
+
+**Tutorials**
+
+[Tech with Tim Getting Started with Local Coding](https://youtu.be/hfba9dAT6xE?si=sFgcJiwasu9Sy4Mm)
