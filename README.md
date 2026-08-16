@@ -1,5 +1,3 @@
-__TOC__
-
 # Local-AI-Coding-Starting-Guide
 
 During my research for local coding, I stumbled on this 4 tools. In this repo I want to present an overview of possible ways to combine them and get the best out of everything. Futermore you are welcome to try everything and leave a comment or suggestions!
@@ -28,17 +26,82 @@ The general idea of this repo is a 2 layered structure, seperated in backend and
 - **Agent layer** (the "hands"): Claude Code and Hermes Agent read your repo, write patches, run terminal commands, and orchestrate multi-step work. They need a backend to think with, whether that's a cloud API or  in our case, a local server.
 
 ## General Setup
+The steps below are just enough to get each tool installed and answering a first prompt. They shouldn't need to change often. Anything that changes more frequently, like  environment variables, API-compatibility flags, model recommendations, is linked to the publisher's own docs instead of copied here.
+
 ### Setup Ollama
+
+```bash
+# Install
+winget install Ollama.Ollama        # Windows
+brew install ollama                 # macOS
+curl -fsSL https://ollama.com/install.sh | sh   # Linux
+
+# First prompt
+ollama pull llama3.2 && ollama run llama3.2
+```
+For further instructions look in the sources below!
+
 ### Setup LM Studio
+
+```text
+1. Download the installer for your OS from lmstudio.ai and run it
+2. Open LM Studio, use the built-in search to find and download a model (e.g. "Qwen")
+3. Load it and chat in the app
+```
+For scripting/headless use, LM Studio ships its own `lms` CLI — bootstrap it once after first launch:
+```bash
+~/.lmstudio/bin/lms bootstrap                            # macOS/Linux
+cmd /c %USERPROFILE%/.lmstudio/bin/lms.exe bootstrap     # Windows
+
+lms get <model-name>
+lms server start
+```
+For further instructions look in the sources below!
+
 ### Setup LocalAI
+
+```bash
+# Install & first prompt (Docker, official quickstart)
+docker run -p 8080:8080 --name local-ai -ti localai/localai:latest
+```
+Open `http://localhost:8080` for the web UI, or install-and-start a model in one line:
+```bash
+local-ai run qwen3-4b
+```
+For further instructions look in the sources below!
+
 ### Setup Claude Code (Locally)
+
+```bash
+# Install
+npm install -g @anthropic-ai/claude-code
+
+# First prompt, pointed at a local backend (Ollama shown here)
+export ANTHROPIC_BASE_URL=http://localhost:11434
+export ANTHROPIC_AUTH_TOKEN=ollama   # placeholder value, ignored by Ollama
+claude --model qwen3-coder
+```
+For further instructions look in the sources below!
+
 ### Setup Hermes
+
+```bash
+# Install
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+
+# First prompt
+hermes setup           # pick a provider interactively (local or cloud)
+hermes chat -q "Hello! What tools do you have available?"
+```
+For further instructions look in the sources below!
 
 ## Combinations
 
 You are free to combine the presented tools and much as you like, my intention is just to give a basic understanding of different setup possibilites and maybe give you some inspiration to explore on your own 😊!
 
 ### Ollama + Claude Code
+
+
 ### LM Studio + Claude Code
 ### Ollama, LM Studio or LocalAI + Hermes Agent
 
@@ -59,33 +122,32 @@ Local models default to small context windows, and agentic tools burn through th
 All information above is drawn from the official documentation of each publisher and some instrcution tutorials:
 
 **Ollama**
-[Anthropic API compatibility](https://docs.ollama.com/api/anthropic-compatibility)
-[Claude Code with Anthropic API compatibility](https://ollama.com/blog/claude)
-[Ollama v0.14.0 Release Notes](https://github.com/ollama/ollama/releases/tag/v0.14.0)
-[Hermes Agent integration](https://docs.ollama.com/integrations/hermes)
+- [Anthropic API compatibility](https://docs.ollama.com/api/anthropic-compatibility)
+- [Claude Code with Anthropic API compatibility](https://ollama.com/blog/claude)
+- [Ollama v0.14.0 Release Notes](https://github.com/ollama/ollama/releases/tag/v0.14.0)
+- [Hermes Agent integration](https://docs.ollama.com/integrations/hermes)
 
 **LM Studio**
-[Claude Code integration guide](https://lmstudio.ai/docs/integrations/claude-code)
-[Anthropic Compatibility Endpoints](https://lmstudio.ai/docs/developer/anthropic-compat)
-[Use your LM Studio Models in Claude Code](https://lmstudio.ai/blog/claudecode) 
+- [Claude Code integration guide](https://lmstudio.ai/docs/integrations/claude-code)
+- [Anthropic Compatibility Endpoints](https://lmstudio.ai/docs/developer/anthropic-compat)
+- [Use your LM Studio Models in Claude Code](https://lmstudio.ai/blog/claudecode) 
 
 **LocalAI**
-[Overview](https://localai.io/docs/overview/index.html)
-[Quickstart](https://localai.io/docs/basics/getting_started/)
-[GitHub - mudler/LocalAI](https://github.com/mudler/LocalAI)
+- [Overview](https://localai.io/docs/overview/index.html)
+- [Quickstart](https://localai.io/docs/basics/getting_started/)
+- [GitHub - mudler/LocalAI](https://github.com/mudler/LocalAI)
 
 **Anthropic / Claude Code**
-[Claude Code model configuration](https://code.claude.com/docs/en/model-config.md)
+- [Claude Code model configuration](https://code.claude.com/docs/en/model-config.md)
 
 **Nous Research / Hermes Agent**
-[Hermes Agent Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart)
-[ACP Host Integration](https://hermes-agent.nousresearch.com/docs/user-guide/features/acp)
-[AI Providers Ollama / LM Studio setup](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/integrations/providers.md)
+- [Hermes Agent Quickstart](https://hermes-agent.nousresearch.com/docs/getting-started/quickstart)
+- [ACP Host Integration](https://hermes-agent.nousresearch.com/docs/user-guide/features/acp)
+- [AI Providers Ollama / LM Studio setup](https://github.com/NousResearch/hermes-agent/blob/main/website/docs/integrations/providers.md)
 
 **LM Studio Bionic**
-[Welcome to LM Studio Bionic](https://lmstudio.ai/docs/bionic)
-[Introducing LM Studio Bionic](https://lmstudio.ai/blog/introducing-lm-studio-bionic)
+- [Welcome to LM Studio Bionic](https://lmstudio.ai/docs/bionic)
+- [Introducing LM Studio Bionic](https://lmstudio.ai/blog/introducing-lm-studio-bionic)
 
 **Tutorials**
-
-[Tech with Tim Getting Started with Local Coding](https://youtu.be/hfba9dAT6xE?si=sFgcJiwasu9Sy4Mm)
+- [Tech with Tim Getting Started with Local Coding](https://youtu.be/hfba9dAT6xE?si=sFgcJiwasu9Sy4Mm)
