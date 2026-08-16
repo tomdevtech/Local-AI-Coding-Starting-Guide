@@ -26,6 +26,7 @@ The general idea of this repo is a 2 layered structure, seperated in backend and
 - **Agent layer** (the "hands"): Claude Code and Hermes Agent read your repo, write patches, run terminal commands, and orchestrate multi-step work. They need a backend to think with, whether that's a cloud API or  in our case, a local server.
 
 ## General Setup
+
 The steps below are just enough to get each tool installed and answering a first prompt. They shouldn't need to change often. Anything that changes more frequently, like  environment variables, API-compatibility flags, model recommendations, is linked to the publisher's own docs instead of copied here.
 
 ### Setup Ollama
@@ -101,11 +102,65 @@ You are free to combine the presented tools and much as you like, my intention i
 
 ### Ollama + Claude Code
 
+This setup is acutally quite easy to achieve in the CLI. 
+
+1. Open the command line interface as administrator.
+2. Paste the following command with your wished model and hit enter:
+
+```powershell
+ollama launch claude --model YOURMODELHERE
+```
+
+4. For any authorization,  take a look in the sources below!
 
 ### LM Studio + Claude Code
+
+1. Define your model with LM Studio and publish it and let the server run.
+2. Set the claude environment variables to point at LM Studio, kinda like that:
+
+```powershell
+export ANTHROPIC_BASE_URL=http://localhost:1234
+export ANTHROPIC_AUTH_TOKEN=lmstudio
+export CLAUDE_CODE_ATTRIBUTION_HEADER=0
+```
+
+3. Let's run claude against the published model via LM Studio:
+
+```powershell
+claude --model YOURMODELHERE
+```
 ### Ollama, LM Studio or LocalAI + Hermes Agent
 
+1. Setup the model in the specific tool and start the local server
+2. Go the model selection and select "Edit Models".
+3. Click on "Add provider...".
+4. Go to "Custom Endpoints" and enter the needed values for chatting with the model. Below you can see an example configuration with LM Studio and the model "qwen2.5-coder-7b-instruct":
+
+![Hermes Agent Setup](pictures/HermesAgentData.png)
+
+5. Afterwards click on safe and select the model we just created.
+6. Now you are able to chat with your local model 😊!
+
 ## Engine Setup in VS Code with agent registration
+
+1. Setup the local model with your favourite provider 👾!
+2. Go to VS Code and open the command palette (Strg + Shift + P) and type in "Chat: Manage Language Models". The 
+3. Click on "Add Models" and select "Custom Endpoint".
+4. Either enter a new group name and define the model specs or click on an existing group and select "Add Model".
+5. Afterwards opens a new window with an empty config file. Enter here the id of the model, a name and the URL for the endpoint. Below is an example set up with LM Studio:
+
+```json
+{
+  "id": "qwen2.5-coder-7b-instruct",
+  "name": "qwen2.5-coder-7b-instruct",
+  "url": "http://127.0.0.1:1234",
+  "toolCalling": true,
+  "vision": false,
+  "maxInputTokens": 128000,
+  "maxOutputTokens": 16000
+}
+```
+Optionally you can set other options and the token handling!
 
 ## General Context Window Recommendations
 
